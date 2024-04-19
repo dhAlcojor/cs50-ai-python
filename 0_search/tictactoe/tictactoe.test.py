@@ -1,4 +1,9 @@
-from tictactoe import X, O, EMPTY, initial_state, player, actions, terminal_board
+from tictactoe import X, O, EMPTY, initial_state, player, actions, result
+
+def terminal_board():
+    return [[X, O, X],
+            [O, X, O],
+            [X, O, X]]
 
 def test_player():
 	print("Testing player")
