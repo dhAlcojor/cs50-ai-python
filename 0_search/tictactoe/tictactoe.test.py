@@ -1,4 +1,4 @@
-from tictactoe import X, O, EMPTY, initial_state, player, actions, result, winner, terminal
+from tictactoe import X, O, EMPTY, initial_state, player, actions, result, winner, terminal, utility
 
 def terminal_board():
     return [[X, O, X],
@@ -264,10 +264,79 @@ def test_terminal():
 	print("---\n✅ All terminal tests pass\n\n")
 
 
+def test_utility():
+	print("Testing utility")
+	print("--------------")
+
+	def test_utility_during_game():
+		"""
+		Test utility during game
+		"""
+		print("Testing utility during game")
+
+		board = initial_state()
+		assert utility(board) == 0
+
+		board[0][0] = X
+		assert utility(board) == 0
+
+		board[0][1] = X
+		assert utility(board) == 0
+
+		board[0][2] = X
+		assert utility(board) == 1
+
+		board = initial_state()
+		board[0][0] = O
+		board[1][0] = O
+		board[2][0] = O
+		assert utility(board) == -1
+
+		board = initial_state()
+		board[0][0] = X
+		board[1][1] = X
+		board[2][2] = X
+		assert utility(board) == 1
+
+		board = initial_state()
+		board[0][2] = O
+		board[1][1] = O
+		board[2][0] = O
+		assert utility(board) == -1
+
+		board = initial_state()
+		board[0][1] = X
+		board[1][1] = X
+		board[2][1] = X
+		assert utility(board) == 1
+
+		board = initial_state()
+		board[0][2] = O
+		board[1][2] = O
+		board[2][2] = O
+		assert utility(board) == -1
+		
+
+	def test_utility_with_terminal_board():
+		"""
+		Test utility with terminal board
+		"""
+		print("Testing utility with terminal board")
+		board = [[X, O, X],
+				 [O, X, O],
+				 [O, X, O]]
+		assert utility(board) == 0
+
+	test_utility_during_game()
+	test_utility_with_terminal_board()
+	print("---\n✅ All utility tests pass\n\n")
+
+
 test_player()
 test_actions()
 test_result()
 test_winner()
 test_terminal()
+test_utility()
 
 print("---\n✅ All tests pass")
