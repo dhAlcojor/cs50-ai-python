@@ -63,7 +63,20 @@ def winner(board):
     if empty_spaces == 9:
         return None
     else:
-        # TODO - check if there is a winner
+        # Check rows
+        for row in board:
+            if row[0] == row[1] == row[2]:
+                return row[0]
+        # Check columns
+        for i in range(3):
+            if board[0][i] == board[1][i] == board[2][i]:
+                return board[0][i]
+        # Check diagonals
+        if board[0][0] == board[1][1] == board[2][2]:
+            return board[0][0]
+        elif board[0][2] == board[1][1] == board[2][0]:
+            return board[0][2]
+        
         return None
 
 
@@ -71,29 +84,31 @@ def terminal(board):
     """
     Returns True if game is over, False otherwise.
     """
-    flat_board = flat(board)
-    empty_spaces = flat_board.count(EMPTY)
-
-    if empty_spaces == 9:
-        return False
-    else:
-        # TODO - check if there is a winner
-        return True
+    return winner(board) is not None
 
 
 def utility(board):
     """
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
     """
-    # TODO - Implement this
-    return 0
+    winner_player = winner(board)
+    if winner_player == X:
+        return 1
+    elif winner_player == O:
+        return -1
+    else:
+        return 0
 
 
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    return (0,0)
+    for i in range(3):
+        for j in range(3):
+            if board[i][j] == EMPTY:
+                return (i, j)
+    return None
 
 
 # Helper functions
