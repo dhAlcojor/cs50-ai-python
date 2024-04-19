@@ -9,23 +9,15 @@ def test_player():
 	print("Testing player")
 	print("--------------")
 
-	def test_player_empty_board():
+	def test_player_during_game():
 		"""
-		Test player on an empty board
+		Test player during game
 		"""
-		print("Testing player on an empty board")
+		print("Testing player during game")
 
 		board = initial_state()
 		assert player(board) == X
 
-
-	def test_player_after_first_movement():
-		"""
-		Test player after first movement
-		"""
-		print("Testing player after first movement")
-
-		board = initial_state()
 		board[0][0] = X
 		assert player(board) == O
 
@@ -48,8 +40,7 @@ def test_player():
 		assert player(board) == O
 	
 
-	test_player_empty_board()
-	test_player_after_first_movement()
+	test_player_during_game()
 	test_player_with_terminal_board()
 	print("---\n✅ All player tests pass\n\n")
 
@@ -58,23 +49,15 @@ def test_actions():
 	print("Testing actions")
 	print("---------------")
 
-	def test_actions_empty_board():
+	def test_actions_during_game():
 		"""
-		Test actions on an empty board
+		Test actions during game
 		"""
-		print("Testing actions on an empty board")
+		print("Testing actions during game")
 
 		board = initial_state()
 		assert actions(board) == {(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2)}
 
-
-	def test_actions_after_first_movement():
-		"""
-		Test actions after the first movement
-		"""
-		print("Testing actions after the first movement")
-
-		board = initial_state()
 		board[0][0] = X
 		assert actions(board) == {(0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2)}
 
@@ -96,12 +79,58 @@ def test_actions():
 		board = terminal_board()
 		assert actions(board) == set()
 	
-	test_actions_empty_board()
-	test_actions_after_first_movement()
+	test_actions_during_game()
 	test_actions_with_terminal_board()
 	print("---\n✅ All actions tests pass\n\n")
 
 
+def test_result():
+	print("Testing result")
+	print("--------------")
+
+	def test_result_during_game():
+		"""
+		Test result during game
+		"""
+		print("Testing result during game")
+
+		board = initial_state()
+		new_board = result(board, (0, 0))
+		assert new_board == [[X, EMPTY, EMPTY],
+							 [EMPTY, EMPTY, EMPTY],
+							 [EMPTY, EMPTY, EMPTY]]
+
+		new_board = result(board, (2, 2))
+		assert new_board == [[EMPTY, EMPTY, EMPTY],
+							 [EMPTY, EMPTY, EMPTY],
+							 [EMPTY, EMPTY, X]]
+		
+		new_board = result(new_board, (1, 1))
+		assert new_board == [[EMPTY, EMPTY, EMPTY],
+							 [EMPTY, O, EMPTY],
+							 [EMPTY, EMPTY, X]]
+		
+
+	def test_result_with_terminal_board():
+		"""
+		Test result with terminal board
+		"""
+		print("Testing result with terminal board")
+
+		board = terminal_board()
+		try:
+			result(board, (0, 0))
+		except Exception as e:
+			assert str(e) == "Game is over"
+		
+		
+
+	test_result_during_game()
+	test_result_with_terminal_board()
+	print("---\n✅ All result tests pass\n\n")
+
+
 test_player()
 test_actions()
+test_result()
 print("---\n✅ All tests pass")
