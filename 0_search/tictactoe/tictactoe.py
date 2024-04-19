@@ -47,6 +47,17 @@ def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
+    # If the board is full we can't make a move
+    flat_board = flat(board)
+    empty_spaces = flat_board.count(EMPTY)
+    if empty_spaces == 0:
+        raise Exception("Game is over")
+    
+    # If the action is not valid we can't make a move
+    if board[action[0]][action[1]] != EMPTY:
+        raise Exception("Invalid move")
+
+    # Make the move
     current_player = player(board)
     new_board = [row.copy() for row in board]
     new_board[action[0]][action[1]] = current_player
@@ -115,9 +126,3 @@ def minimax(board):
 
 def flat(list):
     return sum(list, [])
-
-
-def terminal_board():
-    return [[X, O, X],
-            [O, X, O],
-            [X, O, X]]
