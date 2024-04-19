@@ -80,7 +80,7 @@ def winner(board):
                 return row[0]
         # Check columns
         for i in range(3):
-            if board[0][i] == board[1][i] == board[2][i]:
+            if board[0][i] == board[1][i] == board[2][i] and board[0][i] is not None:
                 return board[0][i]
         # Check diagonals
         if board[0][0] == board[1][1] == board[2][2]:
