@@ -1,4 +1,4 @@
-from tictactoe import X, O, EMPTY, initial_state, player, actions, result, winner, terminal, utility
+from tictactoe import X, O, EMPTY, initial_state, player, actions, result, winner, terminal, utility, minimax
 
 def terminal_board():
     return [[X, O, X],
@@ -332,11 +332,62 @@ def test_utility():
 	print("---\n✅ All utility tests pass\n\n")
 
 
+def test_minimax():
+	print("Testing minimax")
+	print("--------------")
+
+	def test_minimax_during_game():
+		"""
+		Test minimax during game
+		"""
+		print("Testing minimax during game")
+
+		board = initial_state()
+		assert minimax(board) == (0, 0)
+
+		board[0][0] = X
+		assert minimax(board) == (0, 1)
+
+		board[0][1] = O
+		assert minimax(board) == (0, 2)
+
+		board[0][2] = X
+		assert minimax(board) == (1, 0)
+
+		board[1][0] = O
+		assert minimax(board) == (1, 1)
+
+		board[1][1] = X
+		assert minimax(board) == (1, 2)
+
+		board[1][2] = O
+		assert minimax(board) == (2, 0)
+
+		board[2][0] = X
+		assert minimax(board) == (2, 1)
+
+		board[2][1] = O
+		assert minimax(board) == (2, 2)
+
+	def test_minimax_with_terminal_board():
+		"""
+		Test minimax with terminal board
+		"""
+		print("Testing minimax with terminal board")
+		board = terminal_board()
+		assert minimax(board) == None
+
+	test_minimax_during_game()
+	test_minimax_with_terminal_board()
+	print("---\n✅ All minimax tests pass\n\n")
+
+
 test_player()
 test_actions()
 test_result()
 test_winner()
 test_terminal()
 test_utility()
+test_minimax()
 
 print("---\n✅ All tests pass")

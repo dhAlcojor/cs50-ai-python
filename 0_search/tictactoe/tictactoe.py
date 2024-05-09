@@ -111,14 +111,75 @@ def utility(board):
         return 0
 
 
+def min_value(board):
+    """
+    Returns the minimum value for the actions available on the board.
+    """
+    if terminal(board):
+        return utility(board)
+    
+    value = math.inf
+    for action in actions(board):
+        new_board = result(board, action)
+        value = min(value, max_value(new_board))
+    return value
+
+
+def max_value(board):
+    """
+    Returns the maximum value for the actions available on the board.
+    """
+    if terminal(board):
+        return utility(board)
+    
+    value = -math.inf
+    for action in actions(board):
+        new_board = result(board, action)
+        value = max(value, min_value(new_board))
+    return value
+
+
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    for i in range(3):
-        for j in range(3):
-            if board[i][j] == EMPTY:
-                return (i, j)
+    if terminal(board):
+        return None
+    
+    current_player = player(board)
+    possible_actions = actions(board)
+
+    if current_player == X:
+        best_value = -math.inf
+        best_action = None
+        for action in possible_actions:
+            new_board = result(board, action)
+
+            if (terminal(new_board)):
+                value = min_value(new_board)
+                if value > best_value:
+                    best_value = value
+                    best_action = action
+            else:
+                return minimax(new_board)
+            
+        return best_action
+    elif current_player == O:
+        best_value = math.inf
+        best_action = None
+        for action in possible_actions:
+            new_board = result(board, action)
+
+            if (terminal(new_board)):
+                value = max_value(new_board)
+                if value < best_value:
+                    best_value = value
+                    best_action = action
+            else:
+                return minimax(new_board)
+            
+        return best_action
+    
     return None
 
 
